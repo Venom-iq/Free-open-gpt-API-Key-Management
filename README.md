@@ -25,7 +25,7 @@ A self-hosted admin dashboard for managing API keys, user authentication, and us
 
 ```bash
 # Clone the repository
-git clone <https://github.com/Venom-iq/Free-open-gpt-API-Key-Management.git>
+git clone https://github.com/Venom-iq/Free-open-gpt-API-Key-Management.git
 cd Free-open-gpt-API-Key-Management
 
 # Start the application
