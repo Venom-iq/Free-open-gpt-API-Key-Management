@@ -45,7 +45,7 @@ The application will be available at: **http://localhost:7777/**
 |-------|-------|
 | **Admin Username** | `admin` |
 | **Admin Password** | `admin-password-2026` |
-| **Default API Key** | `change-secret-key-2026` |
+| **Default API Key** | `admin-password-2026` |
 
 > ⚠️ **Important**: Change these credentials in production!
 
