@@ -117,7 +117,7 @@ def init_db():
     # Insert default key if no keys exist
     c.execute("SELECT COUNT(*) FROM api_keys")
     if c.fetchone()[0] == 0:
-        default_key = os.getenv("API_SECRET_KEY", "change-secret-key-2026")
+        default_key = os.getenv("API_SECRET_KEY", "admin-password-2026")
         c.execute(
             "INSERT INTO api_keys (key, name, token_limit) VALUES (?, ?, ?)",
             (default_key, "Default Key", -1)
