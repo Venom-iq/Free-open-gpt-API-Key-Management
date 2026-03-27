@@ -25,8 +25,8 @@ A self-hosted admin dashboard for managing API keys, user authentication, and us
 
 ```bash
 # Clone the repository
-git clone <your-repo>
-cd mse_ai_api-main
+git clone <https://github.com/Venom-iq/Free-open-gpt-API-Key-Management.git>
+cd Free-open-gpt-API-Key-Management
 
 # Start the application
 docker-compose up --build -d
