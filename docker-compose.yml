@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  open-gpt:
+    build: .
+    container_name: open-gpt
+    restart: unless-stopped
+    ports:
+      - "7777:7777"
+    environment:
+      - API_SECRET_KEY=change-secret-key-2026
+      - MASTER_ADMIN_KEY=admin-master-key-2026
+      - DB_PATH=/data/open_gpt_keys.db
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - open_gpt_data:/data
+
+volumes:
+  open_gpt_data:

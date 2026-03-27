@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — open-gpt</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .stat-value { font-size: 32px; font-weight: bold; color: #667eea; }
+        .stat-label { color: #666; font-size: 14px; margin-top: 5px; }
+        .section { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .section h2 { margin-bottom: 15px; color: #333; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f9f9f9; font-weight: 600; }
+        button { padding: 8px 16px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #764ba2; }
+        .btn-danger { background: #e74c3c; }
+        .btn-danger:hover { background: #c0392b; }
+        input { padding: 8px; border: 1px solid #ddd; border-radius: 5px; }
+        .logout { background: #e74c3c; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔑 Admin Dashboard</h1>
+        <button class="logout" onclick="logout()">Logout</button>
+    </div>
+    
+    <div class="container">
+        <div class="stats" id="stats"></div>
+        
+        <div class="section">
+            <h2>Create New API Key</h2>
+            <div class="form-row">
+                <input type="text" id="key-name" placeholder="Key name">
+                <input type="number" id="key-limit" placeholder="Token limit (-1 for unlimited)" value="-1">
+                <button onclick="createKey()">Create Key</button>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>API Keys</h2>
+            <table id="keys-table">
+                <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>Name</th>
+                        <th>Tokens Used</th>
+                        <th>Requests</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="keys-body"></tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        async function loadDashboard() {
+            try {
+                const res = await fetch('/admin/stats', {
+                    headers: {'Authorization': 'Bearer ' + getCookie('session')}
+                });
+                if (!res.ok) window.location.href = '/';
+                const stats = await res.json();
+                document.getElementById('stats').innerHTML = `
+                    <div class="stat-card"><div class="stat-value">${stats.total_keys}</div><div class="stat-label">Total Keys</div></div>
+                    <div class="stat-card"><div class="stat-value">${stats.active_keys}</div><div class="stat-label">Active Keys</div></div>
+                    <div class="stat-card"><div class="stat-value">${stats.total_tokens_used}</div><div class="stat-label">Tokens Used</div></div>
+                    <div class="stat-card"><div class="stat-value">${stats.total_requests}</div><div class="stat-label">Total Requests</div></div>
+                `;
+                
+                const keysRes = await fetch('/admin/keys', {
+                    headers: {'Authorization': 'Bearer ' + getCookie('session')}
+                });
+                const keys = await keysRes.json();
+                const tbody = document.getElementById('keys-body');
+                tbody.innerHTML = keys.keys.map(k => `
+                    <tr>
+                        <td><code>${k.key}</code></td>
+                        <td>${k.name}</td>
+                        <td>${k.tokens_used}</td>
+                        <td>${k.requests_count}</td>
+                        <td>${k.is_active ? '✅ Active' : '❌ Inactive'}</td>
+                        <td>
+                            <button onclick="toggleKey('${k.key}', ${!k.is_active})">Toggle</button>
+                            <button class="btn-danger" onclick="deleteKey('${k.key}')">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        
+        async function createKey() {
+            const name = document.getElementById('key-name').value;
+            const limit = parseInt(document.getElementById('key-limit').value);
+            
+            try {
+                const res = await fetch('/admin/keys/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + getCookie('session')
+                    },
+                    body: JSON.stringify({name, token_limit: limit})
+                });
+                if (res.ok) {
+                    alert('Key created!');
+                    loadDashboard();
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+        
+        async function deleteKey(key) {
+            if (!confirm('Delete this key?')) return;
+            try {
+                await fetch('/admin/keys/' + key, {
+                    method: 'DELETE',
+                    headers: {'Authorization': 'Bearer ' + getCookie('session')}
+                });
+                loadDashboard();
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+        
+        async function toggleKey(key, active) {
+            try {
+                await fetch('/admin/keys/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + getCookie('session')
+                    },
+                    body: JSON.stringify({key, is_active: active ? 1 : 0})
+                });
+                loadDashboard();
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+        
+        function getCookie(name) {
+            return document.cookie.split('; ').find(row => row.startsWith(name + '='))?.split('=')[1];
+        }
+        
+        function logout() {
+            fetch('/auth/logout', {method: 'POST', headers: {'Authorization': 'Bearer ' + getCookie('session')}});
+            document.cookie = 'session=; path=/';
+            window.location.href = '/';
+        }
+        
+        loadDashboard();
+    </script>
+</body>
+</html>
