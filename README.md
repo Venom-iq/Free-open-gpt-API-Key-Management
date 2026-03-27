@@ -263,7 +263,7 @@ DB_PATH=/data/open_gpt_keys.db
 ADMIN_PASSWORD=admin-password-2026
 
 # Default API key
-API_SECRET_KEY=change-secret-key-2026
+API_SECRET_KEY=admin-password-2026
 
 # Master admin key (for API management)
 MASTER_ADMIN_KEY=admin-master-key-2026
