@@ -8,7 +8,7 @@ services:
     ports:
       - "7777:7777"
     environment:
-      - API_SECRET_KEY=change-secret-key-2026
+      - API_SECRET_KEY=admin-password-2026
       - MASTER_ADMIN_KEY=admin-master-key-2026
       - DB_PATH=/data/open_gpt_keys.db
       - PYTHONUNBUFFERED=1
