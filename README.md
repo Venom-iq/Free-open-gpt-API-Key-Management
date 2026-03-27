@@ -489,7 +489,7 @@ Note: Make sure to select the correct network when sending to avoid losing funds
 
 * More interactive graphical interface.
 
-Would you like to add a direct contact link (such as Telegram or Discord) alongside the support accounts?
+
 🛠️ الميزات القادمة
 
 
@@ -499,6 +499,6 @@ Would you like to add a direct contact link (such as Telegram or Discord) alongs
 * نظام تنبيهات لاستهلاك التوكينز.
 * واجهة رسومية أكثر تفاعلية.
 
-هل تريد إضافة رابط تواصل مباشر (مثل Telegram أو Discord) بجانب حسابات الدعم؟
+
 
 
