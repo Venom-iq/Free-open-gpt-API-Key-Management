@@ -454,3 +454,51 @@ docker-compose restart open-gpt
 - Use `docker-compose down -v` to completely remove all data
 
 ---
+#
+------------------------------
+☕ الدعم والتطوير (Support & Development)
+إذا وجدت هذا المشروع مفيداً وترغب في دعم استمرار تطويره وإضافة ميزات جديدة، يمكنك المساهمة عبر إرسال دعمك إلى العناوين التالية:
+💰 حسابات التبرع (Donation Addresses)
+
+| العملة (Asset) | الشبكة (Network) | العنوان (Address) |
+|---|---|---|
+| USDT | TRC20 (TRX) | TXtEUEHTvpjxjqNzjzQnQiHtTky7DNHFqM |
+| BTC | BEP20 (BSC) | 0xc8630d0645b87c03c3144ed6b96a3197416322d7 |
+| ETC | BEP20 (BSC) | 0xc8630d0645b87c03c3144ed6b96a3197416322d7 |
+
+ملاحظة: تأكد من اختيار الشبكة الصحيحة عند الإرسال لتجنب فقدان الأموال. شكراً لدعمكم المستمر! 🚀
+
+
+
+------------------------------
+
+
+
+
+
+
+Note: Make sure to select the correct network when sending to avoid losing funds. Thank you for your continued support! 🚀
+
+------------------------------
+
+🛠️ Upcoming Features
+
+* Support for additional models (Claude, Gemini).
+
+* Token usage alert system.
+
+* More interactive graphical interface.
+
+Would you like to add a direct contact link (such as Telegram or Discord) alongside the support accounts?
+🛠️ الميزات القادمة
+
+
+
+
+* دعم نماذج إضافية (Claude, Gemini).
+* نظام تنبيهات لاستهلاك التوكينز.
+* واجهة رسومية أكثر تفاعلية.
+
+هل تريد إضافة رابط تواصل مباشر (مثل Telegram أو Discord) بجانب حسابات الدعم؟
+
+
